@@ -26,7 +26,7 @@
     modules = [
             ./configuration.nix
             ./hardware/kestrel.nix
-      ./modules/vfio.nix
+            ./modules/vfio.nix
             home-manager.nixosModules.home-manager {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
