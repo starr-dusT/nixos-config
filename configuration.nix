@@ -189,15 +189,4 @@
     };
   };
 
-  #systemd.services."libvirt-nosleep@" = {
-  #  enable = true;
-  #  description = "Preventing sleep while libvirt domain \"%i\" is running";
-  #  unitConfig = {
-  #    Type = "simple";
-  #  };
-  #  serviceConfig = {
-  #    ExecStart="systemd-inhibit --what=sleep --why=\"Libvirt domain \"%i\" is running\" --who=%U --mode=block sleep infinity";
-  #  };
-  #};
-
 }
