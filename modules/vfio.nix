@@ -1,5 +1,6 @@
 { config, pkgs, ... }:
 {
+
   # Boot configuration
   boot.kernelParams = [ "amd_iommu=on" "iommu=pt" ];
   boot.kernelModules = [ "kvm-amd" "vfio-pci" ];
