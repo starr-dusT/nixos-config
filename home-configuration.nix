@@ -34,16 +34,10 @@
     };
   };
 
-  xdg.configFile = {
-    "crafted-emacs" = {
-      #recursive = true;
-      source = ./local/crafted-emacs;
-    };
-
-    "xmonad" = {
-      recursive = true;
-      source = ./local/xmonad;
-    };
+  system.userActivationScripts = {
+   stowDots = ''
+     ${pkgs.stow}/bin/stow -d "./local/stow" -t "/home/${user}/.emacs.d"
+   '';
   };
 
 }
