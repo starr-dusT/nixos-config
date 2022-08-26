@@ -161,7 +161,8 @@
 
   programs.bash.shellAliases = {
     # Nix rebuild and switch
-    nr = "cd ~/.setup && sudo nixos-rebuild switch --flake .# && cd -";
+    nr = "stow=0 && cd ~/.setup && sudo nixos-rebuild switch --flake .# && cd -";
+    nrs = "stow=1 && cd ~/.setup && sudo nixos-rebuild switch --flake .# && cd -";
   };
 
   environment.etc = {

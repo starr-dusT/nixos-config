@@ -2,8 +2,11 @@
 {
   system.userActivationScripts = {
    stowDots = ''
-     cd "/home/${user}/.setup/local/stow"
-     ${pkgs.stow}/bin/stow . -t "/home/${user}" --no-folding
+     if [ $stow -eq 1 ]
+     then
+       cd "/home/${user}/.setup/local/stow"
+       ${pkgs.stow}/bin/stow . -t "/home/${user}" --no-folding
+     fi  
    '';
   };
 }
