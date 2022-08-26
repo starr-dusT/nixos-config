@@ -1,0 +1,10 @@
+#! /usr/bin/env bash
+
+volume=$(pamixer --get-volume-human)
+if [ "$volume" == "muted" ]; then
+    color="#FB4934"
+else
+    color="#B8BB26"
+fi
+
+echo "<fc=$color> $volume</fc>"
