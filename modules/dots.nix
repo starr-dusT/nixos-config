@@ -2,7 +2,7 @@
 {
   system.userActivationScripts = {
    stowDots = ''
-     ${pkgs.stow}/bin/stow -d "./local/stow" -t "/home/${user}"
+     ${pkgs.stow}/bin/stow -d "/home/${user}/.setup/local/stow" -t "/home/${user}"
    '';
   };
 }
