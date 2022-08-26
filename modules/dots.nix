@@ -3,7 +3,7 @@
   system.userActivationScripts = {
    stowDots = ''
      cd "/home/${user}/.setup/local/stow"
-     ${pkgs.stow}/bin/stow . -t "/home/${user}"
+     ${pkgs.stow}/bin/stow . -t "/home/${user}" --no-folding
    '';
   };
 }
