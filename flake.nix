@@ -28,6 +28,7 @@
             ./hardware/kestrel.nix
             ./modules/vfio.nix
             ./modules/samba.nix
+            ./modules/dots.nix
             home-manager.nixosModules.home-manager {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
