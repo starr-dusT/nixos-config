@@ -36,14 +36,14 @@
 
   xdg.configFile = {
     "crafted-emacs" = {
-      recursive = true;
+      #recursive = true;
       source = ./local/crafted-emacs;
     };
 
-    #"xmonad" = {
-    #  recursive = true;
-    #  source = ./local/xmonad;
-    #};
+    "xmonad" = {
+      recursive = true;
+      source = ./local/xmonad;
+    };
   };
 
 }
