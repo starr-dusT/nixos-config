@@ -17,6 +17,7 @@
     alacritty
     gamemode
     lutris
+    polymc
     nitrogen
     keepassxc
     pcmanfm
