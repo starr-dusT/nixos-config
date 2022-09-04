@@ -17,12 +17,6 @@
     };
   };
 
-  modules = {
-    services = {
-      samba.enable = true;
-    };
-  };
-
   # Use zen kernel
   boot.kernelPackages = pkgs.linuxPackages_zen;
 
