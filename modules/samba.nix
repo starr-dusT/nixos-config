@@ -1,8 +1,7 @@
 { config, pkgs, ... }:
 {
   services.samba = {
-    enable = true;
-    
+
     # You will still need to set up the user accounts to begin with:
     # $ sudo smbpasswd -a yourusername
 
@@ -20,16 +19,16 @@
       };
     };
   };
-  
-  
-  
+
+
+
   # Curiously, `services.samba` does not automatically open
   # the needed ports in the firewall.
   networking.firewall.allowedTCPPorts = [ 445 139 ];
   networking.firewall.allowedUDPPorts = [ 137 138 ];
-  
-  
-  
+
+
+
   # To make SMB mounting easier on the command line
   environment.systemPackages = with pkgs; [
     cifs-utils

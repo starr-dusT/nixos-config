@@ -11,6 +11,7 @@
 
   outputs = { self, nixpkgs, home-manager, ... }:
     let
+      inherit (lib.my) mapModules mapModulesRec mapHosts;
       system = "x86_64-linux";
       pkgs = import nixpkgs {
         inherit system;
@@ -24,8 +25,8 @@
           inherit system;
     specialArgs = { inherit user; };
     modules = [
-            ./configuration.nix
-            ./hardware/kestrel.nix
+            ./hosts/kestrel/configuration.nix
+            ./hosts/kestrel/kestrel.nix
             ./modules/vfio.nix
             ./modules/samba.nix
             ./modules/dots.nix
@@ -34,7 +35,7 @@
               home-manager.useUserPackages = true;
         home-manager.extraSpecialArgs = { inherit user; };
               home-manager.users.${user} = {
-                imports = [ ./home-configuration.nix ];
+                imports = [ ./hosts/kestrel/home-configuration.nix ];
               };
             }
           ];
