@@ -23,23 +23,24 @@
       nixosConfigurations = {
         kestrel = lib.nixosSystem {
           inherit system;
-    specialArgs = { inherit user; };
-    modules = [
+          specialArgs = { inherit user; };
+          modules = [
             ./hosts/kestrel/configuration.nix
             ./hosts/kestrel/kestrel.nix
             ./modules/vfio.nix
-            ./modules/samba.nix
+            #./modules/samba.nix
             ./modules/dots.nix
             home-manager.nixosModules.home-manager {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-        home-manager.extraSpecialArgs = { inherit user; };
+              home-manager.extraSpecialArgs = { inherit user; };
               home-manager.users.${user} = {
                 imports = [ ./hosts/kestrel/home-configuration.nix ];
               };
             }
           ];
-  };
+        };
       };
+      nixosModules = { dotfiles = import ./.; } // mapModulesRec ./modules import;
     };
 }
