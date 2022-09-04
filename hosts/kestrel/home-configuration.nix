@@ -8,6 +8,11 @@
 
   programs.home-manager.enable = true;
 
+  imports = [ ../../modules ];
+
+  modules = {
+    samba.enable = true;
+  };
 
   home.packages = with pkgs; [
     emacs

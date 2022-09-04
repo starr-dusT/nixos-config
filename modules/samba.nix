@@ -1,5 +1,10 @@
-{ config, pkgs, ... }:
-{
+{ config, lib, pkgs, ... }:
+
+let cfg = config.modules.samba;
+in {
+  options.modules.desktop.samba.enable = lib.mkEnableOption "rofi";
+  config = lib.mkIf cfg.enable {
+
   services.samba = {
     enable = true;
 
@@ -34,4 +39,5 @@
   environment.systemPackages = with pkgs; [
     cifs-utils
   ];
+  };
 }
