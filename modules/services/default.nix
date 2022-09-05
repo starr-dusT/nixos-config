@@ -1,5 +1,5 @@
 { ... }:
 
 {
-  imports = [ ./samba.nix ];
+  imports = [ ./samba.nix ./vfio.nix ];
 }

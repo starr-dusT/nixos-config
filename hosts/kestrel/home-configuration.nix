@@ -1,6 +1,7 @@
 { config, pkgs, user, ... }:
 
 {
+
   home.username = "${user}";
   home.homeDirectory = "/home/${user}";
 
@@ -8,11 +9,6 @@
 
   programs.home-manager.enable = true;
 
-  imports = [ ../../modules ];
-
-  modules = {
-    samba.enable = true;
-  };
 
   home.packages = with pkgs; [
     emacs
@@ -32,6 +28,7 @@
     gruvbox-dark-icons-gtk
     libreoffice-fresh
   ];
+
 
   gtk = {
     enable = true;

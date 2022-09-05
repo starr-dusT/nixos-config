@@ -126,6 +126,7 @@ myTabTheme =
 
 myStartupHook = do
     spawnOnce "nitrogen --restore &"
+    spawnOnce "play-with-mpv &"
     spawnOnce "lxsession &"
     spawnOnce "xsetroot -cursor_name left_ptr"
     spawnOnce "imwheel -b 45 &"

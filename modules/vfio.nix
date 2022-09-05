@@ -24,20 +24,4 @@
   systemd.services.pcscd.enable = false;
   systemd.sockets.pcscd.enable = false;
 
-  #systemd.services.libvirtd = {
-  #  path = let
-  #           env = pkgs.buildEnv {
-  #             name = "qemu-hook-env";
-  #             paths = with pkgs; [
-  #               bash
-  #               libvirt
-  #               kmod
-  #               systemd
-  #               ripgrep
-  #               sd
-  #             ];
-  #           };
-  #         in
-  #         [ env ];
-  #};
 }
