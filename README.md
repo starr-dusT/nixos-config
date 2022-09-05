@@ -1,0 +1,2 @@
+- edit the user in the flake
+- make .stow-on-rebuild file with 1 to stow or 0 to not

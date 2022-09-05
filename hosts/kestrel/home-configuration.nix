@@ -11,10 +11,8 @@
 
 
   home.packages = with pkgs; [
-    emacs
     brave
     rofi
-    stow
     alacritty
     gamemode
     lutris

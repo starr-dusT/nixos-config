@@ -129,13 +129,6 @@
 
   system.stateVersion = "22.05"; # Did you read the comment?
 
-  system.userActivationScripts = {
-    installCraftedEmacs = ''
-      if [ ! -d "/home/${user}/.emacs.d" ]; then
-         ${pkgs.git}/bin/git clone "https://github.com/SystemCrafters/crafted-emacs.git" "/home/${user}/.emacs.d"
-      fi
-    '';
-  };
 
   programs.bash.shellAliases = {
     # Nix rebuild and switch
@@ -144,11 +137,14 @@
 
   imports = [ ../../modules ];
 
-    modules = {
-      stow.enable = true;
-      services = {
-        samba.enable = true;
-        vfio.enable = true;
-      };
+  modules = {
+    stow.enable = true;
+    services = {
+      samba.enable = true;
+      vfio.enable = true;
     };
+    editors = {
+      emacs.enable = true;
+    };
+  };
 }

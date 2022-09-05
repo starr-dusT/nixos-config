@@ -1,14 +1,18 @@
-# stow config files for great sanity! 
+# stow config files for great sanity!
 
 { config, lib, pkgs, user, ... }:
 
-let cfg = config.modules.services.vfio;
+let cfg = config.modules.stow;
 in {
-  options.modules.services.vfio.enable = lib.mkEnableOption "stow";
+  options.modules.stow.enable = lib.mkEnableOption "stow";
   config = lib.mkIf cfg.enable {
+
+    # Install packages
+    environment.systemPackages = with pkgs; [ stow ];
+
     # Run script that checks the .stow-on-rebuild file
     # if it is 1 then it will re-stow else it won't
-    # this is to aviod the slow stow on every rebuild 	
+    # this is to aviod the slow stow on every rebuild
     system.userActivationScripts = {
      stowDots = ''
        if [ -f "/home/${user}/.stow-on-rebuild" ]; then
