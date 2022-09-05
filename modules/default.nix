@@ -1,5 +1,5 @@
 { ... }:
 
 {
-  imports = [ ./services ./stow ];
+  imports = [ ./services ./stow.nix ];
 }
