@@ -1,11 +1,14 @@
 # vfio setup for windows gaming with single gpu 
 
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, user, ... }:
 
 let cfg = config.modules.services.vfio;
 in {
   options.modules.services.vfio.enable = lib.mkEnableOption "samba";
   config = lib.mkIf cfg.enable {
+
+    users.users.${user}.extraGroups = [ "qemu-libvirtd" "libvirtd" "kvm" ];
+
     # Boot configuration
     boot.kernelParams = [ "amd_iommu=on" "iommu=pt" ];
     boot.kernelModules = [ "kvm-amd" "vfio-pci" ];
@@ -50,10 +53,5 @@ in {
         mode = "0755";
       };
     };
-    # Enable xrdp
-    #services.xrdp.enable = true; # use remote_logout and remote_unlock
-    #services.xrdp.defaultWindowManager = "xmonad";
-    #systemd.services.pcscd.enable = false;
-    #systemd.sockets.pcscd.enable = false;
   };
 }

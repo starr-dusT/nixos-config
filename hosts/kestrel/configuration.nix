@@ -104,7 +104,6 @@
   users.users.${user} = {
     isNormalUser = true;
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-    #"qemu-libvirtd" "libvirtd" "kvm"
   };
 
   # List packages installed in system profile. To search, run:
@@ -146,6 +145,7 @@
   imports = [ ../../modules ];
 
     modules = {
+      stow.enable = true;
       services = {
         samba.enable = true;
         vfio.enable = true;
