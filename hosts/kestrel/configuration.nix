@@ -133,6 +133,7 @@
   programs.bash.shellAliases = {
     # Nix rebuild and switch
     nr = "cd ~/.setup && sudo nixos-rebuild switch --flake .# && cd -";
+    sd = "cd ~/.setup/local/stow && stow . -t /home/${user} --no-folding && cd -";
   };
 
   imports = [ ../../modules ];

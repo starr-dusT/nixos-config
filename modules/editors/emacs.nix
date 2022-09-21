@@ -8,7 +8,7 @@ in {
   config = lib.mkIf cfg.enable {
 
     # Install packages
-    environment.systemPackages = with pkgs; [ emacs ];
+    environment.systemPackages = with pkgs; [ emacs silver-searcher ripgrep ];
 
     # Setup SystemCrafter's awesome crafted-emacs
     system.userActivationScripts = {

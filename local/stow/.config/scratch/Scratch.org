@@ -30,8 +30,7 @@
     - [[#file-warnings][File Warnings]]
     - [[#hilight-matching-braces][Hilight Matching Braces]]
     - [[#fix-annoying-buffers][Fix Annoying Buffers]]
-  - [[#theme][
-    Theme]]
+  - [[#theme][Theme]]
   - [[#fonts][Fonts]]
   - [[#mode-line][Mode Line]]
     - [[#time-format][Time Format]]
@@ -68,8 +67,8 @@
 - [[#window-management][Window Management]]
   - [[#frame-scaling][Frame Scaling]]
   - [[#window-selection][Window Selection]]
-  - [[#window-history][Window History]]
   - [[#burly][Burly]]
+  - [[#frames-only-mode][Frames only mode]]
 - [[#file-browsing][File Browsing]]
   - [[#dired][Dired]]
   - [[#open-files-externally][Open Files Externally]]
@@ -79,6 +78,7 @@
   - [[#git][Git]]
     - [[#magit][Magit]]
   - [[#projectile][Projectile]]
+  - [[#treemacs][Treemacs]]
   - [[#languages][Languages]]
     - [[#haskell][Haskell]]
     - [[#emacs-lisp][Emacs Lisp]]
@@ -94,6 +94,7 @@
     - [[#rainbow-delimiters][Rainbow Delimiters]]
     - [[#rainbow-mode][Rainbow Mode]]
 - [[#project-specific][Project Specific]]
+  - [[#recipes][Recipes]]
 - [[#applications][Applications]]
 - [[#keybinds][Keybinds]]
   - [[#general][General]]
@@ -704,14 +705,16 @@ Setup package management. Some lines can be uncommented for fresh installs.
 (require 'package)
 
 ;(setq package-enable-at-startup nil)
-(setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                         ("org" . "https://orgmode.org/elpa/")
-                         ("elpa" . "https://elpa.gnu.org/packages/")))
+(setq package-archives '(("melpa" . "http://melpa.org/packages/")
+                         ("gnu" . "https://elpa.gnu.org/packages/")
+                         ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
+
+; Uncomment for fresh install
 ;(package-initialize)
 
 ; Uncomment for fresh install
-(package-refresh-contents)
-(package-install 'use-package)
+;(package-refresh-contents)
+;(package-install 'use-package)
 
 (require 'use-package)
 (require 'use-package-ensure)
@@ -727,20 +730,19 @@ Trying out straight.el for package management. So far so good!
 
 #+begin_src emacs-lisp :tangle (if (member this-system system-category-1) "~/.emacs.d/init.el" "no")
 
-; Uncomment for fresh install
 ; Bootstrap straight.el
-;(defvar bootstrap-version)
-;(let ((bootstrap-file
-;      (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-;      (bootstrap-version 5))
-;  (unless (file-exists-p bootstrap-file)
-;    (with-current-buffer
-;        (url-retrieve-synchronously
-;        "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-;        'silent 'inhibit-cookies)
-;      (goto-char (point-max))
-;      (eval-print-last-sexp)))
-;  (load bootstrap-file nil 'nomessage))
+ (defvar bootstrap-version)
+ (let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+       (bootstrap-version 5))
+   (unless (file-exists-p bootstrap-file)
+     (with-current-buffer
+         (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+       (goto-char (point-max))
+       (eval-print-last-sexp)))
+   (load bootstrap-file nil 'nomessage))
 
 ;; Always use straight to install on systems other than Linux
 (setq straight-use-package-by-default (not (eq system-type 'gnu/linux)))
@@ -890,7 +892,7 @@ Stolen from https://github.com/MatthewZMD
          ("C-~" . counsel-goto-local-home)))
   :custom
   (ivy-use-virtual-buffers t)
-  (ivy-height 10)
+  (ivy-height 20)
   (ivy-on-del-error-function nil)
   (ivy-magic-slash-non-match-action 'ivy-magic-slash-non-match-create)
   (ivy-count-format "【%d/%d】")
@@ -900,6 +902,7 @@ Stolen from https://github.com/MatthewZMD
       "Go to the $HOME of the local machine."
       (interactive)
     (ivy--cd "~/")))
+
 
 #+end_src
 ** Undo
@@ -1032,7 +1035,7 @@ The [[https://github.com/myrjola/diminish.el][diminish]] package hides pesky min
 
   (use-package doom-modeline
     ;:after eshell     ;; Make sure it gets hooked after eshell
-    :hook (after-init . doom-modeline-init)
+    :hook (after-init . doom-modeline-mode)
     :custom-face
     (mode-line ((t (:height 0.85))))
     (mode-line-inactive ((t (:height 0.85))))
@@ -1044,9 +1047,8 @@ The [[https://github.com/myrjola/diminish.el][diminish]] package hides pesky min
     (doom-modeline-mu4e nil)
     (doom-modeline-irc nil)
     (doom-modeline-minor-modes t)
-    (doom-modeline-persp-name nil)
-      (doom-modeline-buffer-file-name-style 'truncate-except-project)
-      (doom-modeline-major-mode-icon nil))
+    (doom-modeline-buffer-file-name-style 'truncate-except-project)
+    (doom-modeline-major-mode-icon nil))
 
   #+end_src
 
@@ -1226,7 +1228,7 @@ The [[https://github.com/myrjola/diminish.el][diminish]] package hides pesky min
     (setq evil-auto-indent nil)
     (diminish org-indent-mode))
 
-  (use-package org-plus-contrib
+  (use-package org-contrib
     :defer t
     :hook (org-mode . dw/org-mode-setup)
     :config
@@ -1254,11 +1256,6 @@ The [[https://github.com/myrjola/diminish.el][diminish]] package hides pesky min
 
     (evil-define-key '(normal insert visual) org-mode-map (kbd "M-j") 'org-metadown)
     (evil-define-key '(normal insert visual) org-mode-map (kbd "M-k") 'org-metaup)
-
-    (org-babel-do-load-languages
-      'org-babel-load-languages
-      '((emacs-lisp . t)
-        (ledger . t)))
 
     (push '("conf-unix" . conf-unix) org-src-lang-modes)
 
@@ -1544,38 +1541,12 @@ The [[https://github.com/myrjola/diminish.el][diminish]] package hides pesky min
 
 ** Roam
 
-  #+begin_src emacs-lisp :tangle (if (member this-system system-category-1) "~/.emacs.d/init.el" "no")
+#+begin_src emacs-lisp :tangle (if (member this-system system-category-1) "~/.emacs.d/init.el" "no")
 
-  (use-package org-roam
-        :straight (:host github :repo "org-roam/org-roam"
-        :files (:defaults "extensions/*"))
-      :init
-        (setq org-roam-v2-ack t) ;; Turn off v2 warning
-        (add-to-list 'display-buffer-alist
-            '("\\*org-roam\\*"
-              (display-buffer-in-direction)
-              (direction . right)
-              (window-width . 0.33)
-              (window-height . fit-window-to-buffer)))
-        (org-roam-db-autosync-mode)
-      :custom
-        (org-roam-directory (file-truename "/home/tstarr/documents/org/roam"))
-        (org-roam-dailies-directory "daily/")
-        (org-roam-completion-everywhere t)
-      :bind
-        (("C-c r b" . org-roam-buffer-toggle)
-          ("C-c r t" . org-roam-dailies-goto-today)
-          ("C-c r y" . org-roam-dailies-goto-yesterday)
-          ("C-M-n" . org-roam-node-insert)
-          :map org-mode-map
-          ("C-M-i"   . completion-at-point)
-          ("C-M-f" . org-roam-node-find)
-          ("C-M-c" . dl/org-roam-create-id)
-          ("C-<left>" . org-roam-dailies-goto-previous-note)
-          ("C-`" . org-roam-buffer-toggle)
-          ("C-<right>" . org-roam-dailies-goto-next-note)))
-
-  #+end_src
+  ;; TODO
+  (use-package denote)
+  
+#+end_src
 
 ** Beancount
 
@@ -1640,31 +1611,7 @@ The [[https://github.com/myrjola/diminish.el][diminish]] package hides pesky min
   (setq initial-scratch-message "")
   (setq initial-major-mode 'emacs-lisp-mode)
   #+END_SRC
-
-** Scratch
-
-  Since the =*scratch*= buffer is pretty hard-wired into Emacs (see
-  =buffer.c=), the least we could do is getting rid of its initial
-  message.  No, it's using its own mode instead of ~emacs-lisp-mode~ for
-  the questionable benefit of having a function inserting evaluation
-  values after a newline.
-
-  #+begin_src emacs-lisp :tangle (if (member this-system system-category-1) "~/.emacs.d/init.el" "no")
-  (setq initial-scratch-message "")
-  (setq initial-major-mode 'emacs-lisp-mode)
-  #+END_SRC
-
-** Scratch
-
-
-
-  #+begin_src emacs-lisp :tangle (if (member this-system system-category-1) "~/.emacs.d/init.el" "no")
-
-(use-package evil-multiedit)
-(evil-multiedit-default-keybinds)
-    
-  #+END_SRC
-
+  
 * Window Management
 ** Frame Scaling
 
@@ -1709,12 +1656,6 @@ The [[https://github.com/myrjola/diminish.el][diminish]] package hides pesky min
   #+begin_src emacs-lisp :tangle (if (member this-system system-category-1) "~/.emacs.d/init.el" "no")
 
     ;(use-package burly)
-
-(use-package perspective
-  :ensure t  ; use `:straight t` if using straight.el!
-  :bind (("C-x k" . persp-kill-buffer*))
-  :init
-  (persp-mode))
 
 (use-package bufler
   :straight (bufler :fetcher github :repo "alphapapa/bufler.el"
@@ -2013,11 +1954,6 @@ https://magit.vc/manual/magit/
   :after (treemacs magit)
   :ensure t)
 
-(use-package treemacs-perspective ;;treemacs-perspective if you use perspective.el vs. persp-mode
-  :after (treemacs perspective) ;;or perspective vs. persp-mode
-  :ensure t
-  :config (treemacs-set-scope-type 'Perspectives))
-
 #+end_src
 
 ** Languages
@@ -2080,6 +2016,7 @@ https://magit.vc/manual/magit/
 
 *** beancount
 **** Github stolen beancount functions
+
 Provide beancount major mode for personal ledger.
 
 #+begin_src emacs-lisp :tangle (if (member this-system system-category-1) "~/.emacs.d/init.el" "no")
@@ -3181,9 +3118,9 @@ Sets the background of HTML color strings in buffers to be the color mentioned.
 
 * Applications
 * Keybinds
-  ** General
+** General
 
-  Define base bindings that aren't SPC lead.
+Define base bindings that aren't SPC lead.
 
   #+begin_src emacs-lisp :tangle (if (member this-system system-category-1) "~/.emacs.d/init.el" "no")
 
@@ -3191,8 +3128,8 @@ Sets the background of HTML color strings in buffers to be the color mentioned.
   (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
   #+end_src
-
-  ** Main
+  
+** Main
 
   Define SPC lead bindings that don't have submenus.
 
@@ -3227,7 +3164,7 @@ Sets the background of HTML color strings in buffers to be the color mentioned.
 
   #+end_src
 
-  ** Open 
+** Open 
 
   Define SPC lead bindings that open Emacs programs.
 
@@ -3242,7 +3179,7 @@ Sets the background of HTML color strings in buffers to be the color mentioned.
 
   #+end_src
 
-  ** Window
+** Window
 
   Define SPC lead bindings that manipulate Emacs windows.
 
@@ -3253,38 +3190,53 @@ Sets the background of HTML color strings in buffers to be the color mentioned.
 
   #+end_src
 
-  ** Project 
+** Project 
 
   Define SPC lead bindings for projectile.
 
   #+begin_src emacs-lisp :tangle (if (member this-system system-category-1) "~/.emacs.d/init.el" "no")
 
-  ; Commands for projectile projects
-  (dw/leader-key-def
-    "p"  '(:ignore t :which-key "project")
-    "p."  '(projectile-find-file                   :which-key "Find file in project")
-    "p>"  '(projectile-find-file-in-known-projects :which-key "Find file in know projects")
-    "p!"  '(projectile-run-shell-command-in-root   :which-key "Run cmd in project root")
-    "pa"  '(projectile-add-known-project           :which-key "Add new project")
-    "pb"  '(projectile-switch-to-buffer            :which-key "Switch to project buffer")
-    "pc"  '(projectile-compile-project             :which-key "Compile in project")
-    "pC"  '(projectile-repeat-last-command         :which-key "Repeat last command")
-    "pd"  '(projectile-remove-known-project        :which-key "Remove known project")
-    "pe"  '(projectile-edit-dir-locals             :which-key "Edit project .dir-locals")
-    "pg"  '(projectile-configure-project           :which-key "Configure project")
-    "pi"  '(projectile-invalidate-cache            :which-key "Invalidate project cache")
-    "pk"  '(projectile-kill-buffers                :which-key "Kill project buffers")
-    "po"  '(projectile-find-other-file             :which-key "Find other file")
-    "pp"  '(projectile-switch-project              :which-key "Switch project")
-    "pr"  '(projectile-recentf                     :which-key "Find recent project files")
-    "pR"  '(projectile-run-project                 :which-key "Run project")
-    "ps"  '(projectile-save-project-buffers        :which-key "Save project files")
-    "pt"  '(magit-todos-list                       :which-key "List project todos")
-    "pT"  '(projectile-test-project                :which-key "Test project"))
+      ; Commands for projectile projects
+    ;; TODO: setup ivy keybinds
+      (dw/leader-key-def
+        "p"  '(:ignore t :which-key "project")
+        "p."  '(projectile-find-file                   :which-key "Find file in project")
+        "p>"  '(projectile-find-file-in-known-projects :which-key "Find file in know projects")
+        "p!"  '(projectile-run-shell-command-in-root   :which-key "Run cmd in project root")
+        "pa"  '(projectile-add-known-project           :which-key "Add new project")
+        "pb"  '(projectile-switch-to-buffer            :which-key "Switch to project buffer")
+        "pc"  '(projectile-compile-project             :which-key "Compile in project")
+        "pC"  '(projectile-repeat-last-command         :which-key "Repeat last command")
+        "pd"  '(projectile-remove-known-project        :which-key "Remove known project")
+        "pe"  '(projectile-edit-dir-locals             :which-key "Edit project .dir-locals")
+        "pg"  '(projectile-configure-project           :which-key "Configure project")
+        "pi"  '(projectile-invalidate-cache            :which-key "Invalidate project cache")
+        "pk"  '(projectile-kill-buffers                :which-key "Kill project buffers")
+        "po"  '(projectile-find-other-file             :which-key "Find other file")
+        "pp"  '(projectile-switch-project              :which-key "Switch project")
+        "pr"  '(projectile-recentf                     :which-key "Find recent project files")
+        "pR"  '(projectile-run-project                 :which-key "Run project")
+        "ps"  '(projectile-save-project-buffers        :which-key "Save project files")
+        "pt"  '(magit-todos-list                       :which-key "List project todos")
+        "pT"  '(projectile-test-project                :which-key "Test project"))
+
+    
+counsel-projectile-switch-to-buffer
+counsel-projectile-ag
+counsel-projectile-rg
+counsel-projectile-grep
+counsel-projectile-mode
+counsel-projectile-find-dir
+counsel-projectile-git-grep
+counsel-projectile-find-file
+counsel-projectile-org-agenda
+counsel-projectile-org-capture
+counsel-projectile-find-file-dwim
+counsel-projectile-switch-project
 
   #+end_src
 
-  ** Git
+** Git
 
   Define SPC lead bindings for magit.
 
@@ -3308,7 +3260,7 @@ Sets the background of HTML color strings in buffers to be the color mentioned.
 
   #+end_src
 
-  ** Util
+** Util
 
   Define SPC lead bindings for various Emacs and general system utilites.
 
@@ -3320,7 +3272,7 @@ Sets the background of HTML color strings in buffers to be the color mentioned.
 
   #+end_src
 
-  ** Help
+** Help
 
   Define SPC lead bindings for finding documentation.
 
@@ -3334,7 +3286,7 @@ Sets the background of HTML color strings in buffers to be the color mentioned.
 
   #+end_src
 
-  ** Buffer
+** Buffer
 
   Define SPC lead bindings that manipulate Emacs buffers and bookmarks.
 
@@ -3345,23 +3297,22 @@ Sets the background of HTML color strings in buffers to be the color mentioned.
     "b"    '(:ignore t                          :which-key "buffer")
     "b["   '(previous-buffer                    :which-key "Previous buffer")
     "b]"   '(next-buffer                        :which-key "Next buffer")
-    "bb"   '(persp-switch-to-buffer             :which-key "Switch workspace buffer")
-  "bB"   '(switch-to-buffer                   :which-key "Switch buffer")
-  "bb"   '(switch-to-buffer                   :which-key "Switch buffer")
-  "bd"   '(delete-window                      :which-key "Delete buffer")
-  "bi"   '(ibuffer                            :which-key "ibuffer")
-  "bk"   '(kill-buffer-and-window             :which-key "Kill buffer")
-  "bl"   '(evil-switch-to-windows-last-buffer :which-key "Switch to last buffer")
-  "bm"   '(bookmark-set                       :which-key "Set bookmark")
-  "bM"   '(bookmark-delete                    :which-key "Delete bookmark")
-  "bn"   '(next-buffer                        :which-key "Next buffer")
-  "bN"   '(evil-buffer-new                    :which-key "New empty buffer")
-  "bp"   '(previous-buffer                    :which-key "Previous buffer")
-  "br"   '(revert-buffer                      :which-key "Revert buffer")
-  "bs"   '(basic-save-buffer                  :which-key "Save buffer")
-  "bS"   '(evil-write-all                     :which-key "Save all buffers")
-  "bw"   '(burly-bookmark-windows             :which-key "Bookmark windows")
-  "bz"   '(bury-buffer                        :which-key "Bury buffer"))
+    "bB"   '(switch-to-buffer                   :which-key "Switch buffer")
+    "bb"   '(switch-to-buffer                   :which-key "Switch buffer")
+    "bd"   '(delete-window                      :which-key "Delete buffer")
+    "bi"   '(ibuffer                            :which-key "ibuffer")
+    "bk"   '(kill-buffer-and-window             :which-key "Kill buffer")
+    "bl"   '(evil-switch-to-windows-last-buffer :which-key "Switch to last buffer")
+    "bm"   '(bookmark-set                       :which-key "Set bookmark")
+    "bM"   '(bookmark-delete                    :which-key "Delete bookmark")
+    "bn"   '(next-buffer                        :which-key "Next buffer")
+    "bN"   '(evil-buffer-new                    :which-key "New empty buffer")
+    "bp"   '(previous-buffer                    :which-key "Previous buffer")
+    "br"   '(revert-buffer                      :which-key "Revert buffer")
+    "bs"   '(basic-save-buffer                  :which-key "Save buffer")
+    "bS"   '(evil-write-all                     :which-key "Save all buffers")
+    "bw"   '(burly-bookmark-windows             :which-key "Bookmark windows")
+    "bz"   '(bury-buffer                        :which-key "Bury buffer"))
 
 #+end_src
 
