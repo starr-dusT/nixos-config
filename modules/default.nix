@@ -1,5 +1,5 @@
 { ... }:
 
 {
-  imports = [ ./services ./editors ./stow.nix ];
+  imports = [ ./devel ./services ./editors ./stow.nix ];
 }

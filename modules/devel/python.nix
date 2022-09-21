@@ -2,7 +2,7 @@
 
 { config, lib, pkgs, user, ... }:
 
-let cfg = config.modules.editors.emacs;
+let cfg = config.modules.devel.python;
 in {
   options.modules.devel.python.enable = lib.mkEnableOption "python";
   config = lib.mkIf cfg.enable {
