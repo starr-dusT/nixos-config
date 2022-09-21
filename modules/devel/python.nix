@@ -4,13 +4,11 @@
 
 let cfg = config.modules.editors.emacs;
 in {
-  options.modules.editors.emacs.enable = lib.mkEnableOption "emacs";
+  options.modules.devel.python.enable = lib.mkEnableOption "python";
   config = lib.mkIf cfg.enable {
 
     # Install packages
-    environment.systemPackages = with pkgs; [ emacs ];
-
-
+    environment.systemPackages = with pkgs; [ python310 ];
 
   };
 }

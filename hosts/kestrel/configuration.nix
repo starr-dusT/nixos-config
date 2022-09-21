@@ -144,6 +144,9 @@
       samba.enable = true;
       vfio.enable = true;
     };
+    devel = {
+      python.enable = true;
+    };
     editors = {
       emacs.enable = true;
     };

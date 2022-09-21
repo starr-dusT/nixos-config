@@ -984,6 +984,27 @@ Stolen from https://github.com/MatthewZMD
 
 #+end_src
 
+*** Dashboard
+
+#+begin_src emacs-lisp :tangle (if (member this-system system-category-1) "~/.emacs.d/init.el" "no")
+
+    (use-package dashboard
+      :ensure t
+      :config
+      (setq dashboard-projects-switch-function 'counsel-projectile-switch-project-by-name)
+      (setq dashboard-init-info "The more you try the more you fail!")
+      (setq show-week-agenda-p t)
+      (setq dashboard-items '((bookmarks . 10)
+                              (projects . 10)
+                              (recents . 10)
+                              (agenda . 5)))
+      (setq dashboard-set-heading-icons t)
+      (setq dashboard-set-file-icons t)
+      (setq dashboard-startup-banner 4)
+      (dashboard-setup-startup-hook)
+      )
+#+end_src
+
 ** Theme
 
 #+begin_src emacs-lisp :tangle (if (member this-system system-category-1) "~/.emacs.d/init.el" "no")
@@ -995,6 +1016,10 @@ Stolen from https://github.com/MatthewZMD
 
 ** Fonts
 #+begin_src emacs-lisp :tangle (if (member this-system system-category-1) "~/.emacs.d/init.el" "no")
+
+
+  (use-package all-the-icons
+  :if (display-graphic-p))
 
   ;; Set the font face based on platform
   (set-face-attribute 'default nil :font "JetBrains Mono Nerd Font" :height 80)
@@ -3200,39 +3225,20 @@ Define base bindings that aren't SPC lead.
     ;; TODO: setup ivy keybinds
       (dw/leader-key-def
         "p"  '(:ignore t :which-key "project")
-        "p."  '(projectile-find-file                   :which-key "Find file in project")
-        "p>"  '(projectile-find-file-in-known-projects :which-key "Find file in know projects")
+        "p."  '(counsel-projectile-find-file           :which-key "Find file in project")
         "p!"  '(projectile-run-shell-command-in-root   :which-key "Run cmd in project root")
-        "pa"  '(projectile-add-known-project           :which-key "Add new project")
-        "pb"  '(projectile-switch-to-buffer            :which-key "Switch to project buffer")
+        "pa"  '(counsel-projectile-ag                  :which-key "Search project with ag")
+        "pr"  '(counsel-projectile-rg                  :which-key "Search project with rg")
+        "pA"  '(projectile-add-known-project           :which-key "Add new project")
+        "pb"  '(counsel-projectile-switch-to-buffer    :which-key "Switch to project buffer")
         "pc"  '(projectile-compile-project             :which-key "Compile in project")
-        "pC"  '(projectile-repeat-last-command         :which-key "Repeat last command")
         "pd"  '(projectile-remove-known-project        :which-key "Remove known project")
-        "pe"  '(projectile-edit-dir-locals             :which-key "Edit project .dir-locals")
-        "pg"  '(projectile-configure-project           :which-key "Configure project")
-        "pi"  '(projectile-invalidate-cache            :which-key "Invalidate project cache")
         "pk"  '(projectile-kill-buffers                :which-key "Kill project buffers")
-        "po"  '(projectile-find-other-file             :which-key "Find other file")
-        "pp"  '(projectile-switch-project              :which-key "Switch project")
-        "pr"  '(projectile-recentf                     :which-key "Find recent project files")
+        "pp"  '(counsel-projectile-switch-project      :which-key "Switch project")
         "pR"  '(projectile-run-project                 :which-key "Run project")
         "ps"  '(projectile-save-project-buffers        :which-key "Save project files")
         "pt"  '(magit-todos-list                       :which-key "List project todos")
         "pT"  '(projectile-test-project                :which-key "Test project"))
-
-    
-counsel-projectile-switch-to-buffer
-counsel-projectile-ag
-counsel-projectile-rg
-counsel-projectile-grep
-counsel-projectile-mode
-counsel-projectile-find-dir
-counsel-projectile-git-grep
-counsel-projectile-find-file
-counsel-projectile-org-agenda
-counsel-projectile-org-capture
-counsel-projectile-find-file-dwim
-counsel-projectile-switch-project
 
   #+end_src
 
