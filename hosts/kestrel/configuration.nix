@@ -72,8 +72,16 @@
   services.avahi.nssmdns = true;
 
   # Enable sound.
-  sound.enable = true;
-  hardware.pulseaudio.enable = true;
+  #sound.enable = true;
+  security.rtkit.enable = true;
+  services.pipewire = {
+  enable = true;
+  alsa.enable = true;
+  alsa.support32Bit = true;
+  pulse.enable = true;
+  # If you want to use JACK applications, uncomment this
+  #jack.enable = true;
+};
 
   # Add non-free packages
   nixpkgs.config.allowUnfree = true;
@@ -122,6 +130,7 @@
     vifm
     play-with-mpv
     mpv
+    autokey
   ];
 
   # Enable the OpenSSH daemon.
@@ -146,6 +155,7 @@
     };
     devel = {
       python.enable = true;
+      engineering.enable = true;
     };
     editors = {
       emacs.enable = true;
