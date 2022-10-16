@@ -56,12 +56,15 @@
 
     # Use the xmonad wm
     windowManager = {
+      qtile.enable = true;
       xmonad = {
         enable = true;
         enableContribAndExtras = true;
       };
     };
   };
+
+  nixpkgs.overlays = [ (import ../../overlays) ];
 
   hardware.opengl.enable = true;
 
