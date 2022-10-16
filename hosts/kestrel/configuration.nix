@@ -64,7 +64,7 @@
     };
   };
 
-  nixpkgs.overlays = [ (import ../../overlays) ];
+  nixpkgs.overlays = builtins.attrValues (import ../../overlays);
 
   hardware.opengl.enable = true;
 

@@ -1,5 +1,5 @@
 { ... }:
 
 {
-  imports = [ ./overrides.nix ];
+  overrides = import ./overrides.nix;
 }
