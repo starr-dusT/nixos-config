@@ -9,6 +9,10 @@
 
   programs.home-manager.enable = true;
 
+  programs.vscode = {
+    enable = true;
+    package = pkgs.vscode.fhsWithPackages (ps: with ps; [ ]);
+  };
 
   home.packages = with pkgs; [
     brave
@@ -16,7 +20,7 @@
     alacritty
     gamemode
     lutris
-    polymc
+    prismlauncher
     nitrogen
     keepassxc
     pcmanfm
@@ -26,7 +30,6 @@
     gruvbox-dark-icons-gtk
     libreoffice-fresh
   ];
-
 
   gtk = {
     enable = true;

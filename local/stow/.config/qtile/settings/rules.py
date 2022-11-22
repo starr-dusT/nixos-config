@@ -4,6 +4,7 @@ from libqtile import hook
 dgroups_app_rules = [Rule(Match(wm_type=["confirm",
                                          "download",
                                          "notification",
+                                         "fullscreen",
                                          "toolbar",
                                          "splash",
                                          "dialog",

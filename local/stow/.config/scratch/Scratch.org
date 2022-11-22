@@ -1637,6 +1637,17 @@ The [[https://github.com/myrjola/diminish.el][diminish]] package hides pesky min
   (setq initial-major-mode 'emacs-lisp-mode)
   #+END_SRC
   
+** Evil-Multiedit
+
+#+begin_src emacs-lisp :tangle (if (member this-system system-category-1) "~/.emacs.d/init.el" "no")
+
+(use-package evil-multiedit
+  :defer 1
+  :config
+  (evil-multiedit-default-keybinds))
+  
+#+END_SRC
+  
 * Window Management
 ** Frame Scaling
 

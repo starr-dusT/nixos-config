@@ -1,4 +1,5 @@
 from libqtile.config import EzKey
+from libqtile.config import Key, KeyChord
 from libqtile.command import lazy
 from libqtile import qtile
 from custom.traverse import *
@@ -104,3 +105,6 @@ keys = [EzKey(k[0], *k[1:]) for k in [
      lazy.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle")),
 
 ]]
+
+keys.append(KeyChord([mod], "o", [Key([], "b", lazy.spawn("brave"))]))
+

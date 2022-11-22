@@ -263,6 +263,8 @@ myKeys home =
     , ("M-C-k", rotSlavesUp)
     -- Move focus to the master window.
     , ("M-m", windows W.focusMaster)
+    -- Move focus to the previous window.
+    , ("M-u", nextMatch History (return True))
     -- Swap the focused window and the master window.
     , ("M-S-m", windows W.swapMaster)
     -- Increment number of windows in master

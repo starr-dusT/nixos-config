@@ -4,6 +4,6 @@ from settings.widgets import primary_widgets
 
 # Define the screens (and bars)
 screens = [
-    Screen(),
+    Screen(top=bar.Bar(widgets=primary_widgets, size=20)),
     Screen(top=bar.Bar(widgets=primary_widgets, size=20)),
 ]

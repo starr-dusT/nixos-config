@@ -42,7 +42,7 @@ primary_widgets = [
         padding=0,
         background=wal_color["color1"],
         foreground=wal_color["color2"],
-    ),
+        ),
     # Window count
     widget.WindowCount(
         scale=0.6, foreground=wal_color["color0"], background=wal_color["color1"]
@@ -53,7 +53,6 @@ primary_widgets = [
     # Window Name
     widget.Spacer(length=spacer_len),
     WindowName(foreground=wal_color["color2"]),
-    #widget.WindowName(foreground=wal_color["color2"]),
     # System Tray
     widget.Systray(background=wal_color["color0"], padding=0),
     widget.Spacer(length=spacer_len, background=wal_color["color0"]),
@@ -101,7 +100,7 @@ primary_widgets = [
         foreground=wal_color["color0"],
         background=wal_color["color2"],
     ),
-    widget.PulseVolume(foreground=wal_color["color0"], background=wal_color["color2"]),
+    widget.Volume(foreground=wal_color["color0"], background=wal_color["color2"]),
     widget.Spacer(length=spacer_len, background=wal_color["color2"]),
     # Clock
     widget.TextBox(
